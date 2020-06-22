@@ -7,5 +7,10 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+body > div.wrapper > div {
+  background-color: red;
+  padding: 50px;
+}
+
 
 
