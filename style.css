@@ -2,15 +2,21 @@
   color: red;
 }
 
+.container {
+  display: grid;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
 body > div.wrapper > div {
-  background-color: red;
+  background-color: pink;
   padding: 50px;
 }
+
+
 
 
 
