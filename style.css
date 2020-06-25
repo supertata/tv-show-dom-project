@@ -16,6 +16,14 @@ body > div.wrapper > div {
   padding: 50px;
 }
 
+.card {
+  padding: 20px 20px;
+  margin: 20px 20px;
+  background-color: #f5eaed;
+  border-radius: 10px;
+  
+}
+
 
 
 
