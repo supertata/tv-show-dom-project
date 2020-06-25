@@ -1,4 +1,8 @@
 // const allEpisodes = getAllEpisodes();
+
+let allEpisodes = getAllEpisodes();
+
+
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
@@ -40,27 +44,29 @@ function makePageForEpisodes(episodeList) {
     let replaced = string.replace(/(<p>)|(<br>)|(<\/p>)/gm, "");
     summary.innerText = replaced;
 
-    //search
-    //select input
   }
 }
 
-window.onload = setup;
-
 // ------------- Search ---------------------
 
-let display = document.querySelector("#episodeDisplay");
 let input = document.getElementById("search");
-
 input.addEventListener("keyup", function (e) {
   const term = e.target.value.toLowerCase();
+  let displayNumOfEpisodes = document.getElementById("numOfEpisodeDisplayed");
   let episodes = document.querySelectorAll(".card");
   
-  let newArray = Array.from(episodes).filter((episode) => {
+  let newArrayOfEpisodes = Array.from(episodes);
+  
+  newArrayOfEpisodes.forEach(function(episode) {
     if (episode.innerText.toLowerCase().includes(term)) {
       episode.style.display = "block";
     } else {
       episode.style.display = "none";
     }
+    
   });
+  let filteredListOfEpisodes = newArrayOfEpisodes.filter((item) => item.style.display === "block");
+  displayNumOfEpisodes.innerText = `Displaying ${filteredListOfEpisodes.length}/${newArrayOfEpisodes.length} episodes`;
 });
+
+window.onload = setup;
