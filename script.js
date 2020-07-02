@@ -69,6 +69,29 @@ return ` S${season.toString().padStart(2, "0")}E${number.toString().padStart(2, 
 //   displayNumOfEpisodes.innerText = `Displaying ${filteredListOfEpisodes.length}/${newArrayOfEpisodes.length} episodes`;
 // });
 
+//Search: only display episode that contain term. 
+input.addEventListener("keyup", function (e) {
+  
+  const term = e.target.value.toLowerCase();
+  let episodes = document.querySelectorAll(".card");
+
+  let newArrayOfEpisodes = Array.from(episodes);
+  newArrayOfEpisodes.forEach(function(episode) {
+    if (episode.innerText.toLowerCase().includes(term)) {
+      episode.style.display = "block";
+    } else {
+      episode.style.display = "none";
+    }
+  });
+  let filteredListOfEpisodes = newArrayOfEpisodes.filter((item) => item.style.display === "block");
+  displayNumOfEpisodes(filteredListOfEpisodes);
+});
+
+function displayNumOfEpisodes (episodesDisplayed) {
+let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay");
+episodeNumDisplay.innerText = `Displaying ${episodesDisplayed.length}/${allEpisodes.length} episodes`;
+}
+
 // ------------ Episode Selector -----------
 
 // let select = document.querySelector("#episodeList");
