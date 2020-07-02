@@ -2,6 +2,18 @@
   color: red;
 }
 
+#container {
+  border: solid 5px green;
+}
+
+#header {
+  border: solid 5px red;
+}
+
+#episodeContainer {
+  border: solid 5px blue;
+}
+
 .container {
   display: grid;
 }

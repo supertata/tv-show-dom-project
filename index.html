@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Laetitia (supertata)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <!--<div id="root">
-    </div>-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project | Laetitia (supertata)</title>
+  <link href="style.css" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
 
-
-    <div id="container" style="border: solid 5px green">
-      
-      
-      <div id="header" style="border: solid 5px red">
-        
-        <select id="episodeList">
-         <!-- <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="opel">Opel</option>
-          <option value="audi">Audi</option>-->
-
-        </select>
-        <input id="search" type="text" name="fname">
-        <span id="numOfEpisodeDisplayed"></span>
-      
-      </div>
-      
-      <div id="episodeContainer" class="wrapper" style="border: solid 5px blue">
-     </div>
-     <footer>
+<body>
+  <div id="container">
+    <div id="header">
+      <select id="episodeList"></select>
+      <input id="search" type="text" name="fname">
+      <span id="numOfEpisodeDisplayed"></span>
+    </div>
+    <div id="episodeContainer" class="wrapper">
+    </div>
+    <footer>
       <p>Data from <a href=https://www.tvmaze.com>TV Maze</a></p>
     </footer>
-   </div>
+  </div>
 
-    
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+  <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+  <script src="episodes.js"></script>
 
-    <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
-  </body>
+  <!-- Loads YOUR javascript code -->
+  <script src="script.js"></script>
+</body>
+
 </html>
