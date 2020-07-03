@@ -1,6 +1,7 @@
 let allEpisodes = getAllEpisodes();
 let input = document.getElementById("search");
 let parent = document.querySelector("#episodeContainer");
+let select = document.querySelector("#episodeList");
 
 function setup() {
  fetch("https://api.tvmaze.com/shows/5/episodes")
@@ -61,7 +62,7 @@ return `S${season.toString().padStart(2, "0")}E${number.toString().padStart(2, "
 }
 
 
-// ------------- Search --------------------- only display episode that contain term.
+// ------------- Search --------------------- only display episodes that contain term.
  
 input.addEventListener("keyup", function (e) {
   
@@ -80,14 +81,15 @@ input.addEventListener("keyup", function (e) {
   displayNumOfEpisodes(filteredListOfEpisodes);
 });
 
+// ------------ Display number of episodes --------------
+
 function displayNumOfEpisodes (episodesDisplayed) {
-let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay");
-episodeNumDisplay.innerText = `Displaying ${episodesDisplayed.length}/${allEpisodes.length} episodes`;
+  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); //display element
+  episodeNumDisplay.innerText = `Displaying ${episodesDisplayed.length}/${allEpisodes.length} episodes`;
 }
 
-// ------------ Episode Selector -----------
-let select = document.querySelector("#episodeList");
 
+// ------------- Create Episode Dropdown on onload ------------
 
 function createDropdown (allEpisodes) {
   for (let i = 0; i < allEpisodes.length; i++) {
@@ -97,37 +99,34 @@ function createDropdown (allEpisodes) {
        }
        selectAllEpisodes ()
 }
-    select.addEventListener("change", function (event) {
+   
+// ------------ Episode Selector -----------------
+
+select.addEventListener("change", function (event) {
     let episodeOption = event.target.value;
+  
     episodeOption = episodeOption.slice(0, 6);
     console.log(episodeOption);
     let episodes = document.querySelectorAll(".card");    
 
-    Array.from(episodes).forEach(function(card) {
+    let newArrayOfEpisodes = Array.from(episodes);
+    newArrayOfEpisodes.forEach(function(card) {
        if (!card.innerText.includes(episodeOption)) {
           card.style.display = "none";
         } else if (card.innerText.includes(episodeOption)) {
           card.style.display = "block";
         } 
+        console.log(card);
     });
+    let filteredListOfEpisodes = newArrayOfEpisodes.filter((item) => item.style.display === "block");
+    displayNumOfEpisodes(filteredListOfEpisodes);
 });
 
 
-// ----------------- Show all Episodes ------------------------
+// ----------------- Show all Episodes button ------------------------
 
 let allEpisodesButton = document.getElementById("showAllEpisodes");
 
-allEpisodesButton.addEventListener("click", function setup() {
-  fetch("https://api.tvmaze.com/shows/5/episodes")
-  .then(function (response) {
- return response.json();
-  })
-  .then((data) => {
-   makePageForEpisodes(data);
-   createDropdown(data);
-   console.log(data);
- })
- .catch((error) => console.log(error));
- });
+allEpisodesButton.addEventListener("click", setup);
 
 window.onload = setup;
