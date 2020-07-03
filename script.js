@@ -112,23 +112,22 @@ function createDropdown (allEpisodes) {
     });
 });
 
-// let select = document.querySelector("#episodeList");
-// //display list of elements when user clicks
-// select.addEventListener("click", function () {
-//   for (let i = 0; i < allEpisodes.length; i++) {
-//     let createOption = document.createElement("option");
 
-//     select.appendChild(createOption);
-//     Option.value = `S0${allEpisodes[i].season}E0${allEpisodes[i].number} - ${allEpisodes[i].name}`;
-//     createOption.innerText = Option.value;
-//     // let episodeOption = document.querySelectorAll("#episodeList > option");
-//    }
-// })
+// ----------------- Show all Episodes ------------------------
 
-// function selectAllEpisodes () {
-  //   let optionTitle = document.createElement("option");
-  //   select.appendChild(optionTitle); 
-  //   optionTitle.innerText = "Select All episodes"
-  // }
+let allEpisodesButton = document.getElementById("showAllEpisodes");
+
+allEpisodesButton.addEventListener("click", function setup() {
+  fetch("https://api.tvmaze.com/shows/5/episodes")
+  .then(function (response) {
+ return response.json();
+  })
+  .then((data) => {
+   makePageForEpisodes(data);
+   createDropdown(data);
+   console.log(data);
+ })
+ .catch((error) => console.log(error));
+ });
 
 window.onload = setup;
