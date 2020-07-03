@@ -3,9 +3,19 @@ let input = document.getElementById("search");
 let parent = document.querySelector("#episodeContainer");
 
 function setup() {
-  makePageForEpisodes(allEpisodes);
-  createDropdown (allEpisodes);
+ fetch("https://api.tvmaze.com/shows/5/episodes")
+ .then(function (response) {
+return response.json();
+ })
+ .then((data) => {
+  makePageForEpisodes(data);
+  createDropdown(data);
+  console.log(data);
+})
+.catch((error) => console.log(error));
 }
+
+
 
 function makePageForEpisodes(episodeList) {
   for (let i = 0; i < episodeList.length; i++) {
@@ -87,18 +97,6 @@ function createDropdown (allEpisodes) {
        }
        selectAllEpisodes ()
 }
-
-function selectAllEpisodes () {
-  let optionTitle = document.createElement("option");
-  select.appendChild(optionTitle); 
-  optionTitle.innerText = "Select All episodes"
-}
-
-select.addEventListener("change", function (event) {
-
-
-});
-
     select.addEventListener("change", function (event) {
     let episodeOption = event.target.value;
     episodeOption = episodeOption.slice(0, 6);
@@ -112,7 +110,6 @@ select.addEventListener("change", function (event) {
           card.style.display = "block";
         } 
     });
-
 });
 
 // let select = document.querySelector("#episodeList");
@@ -127,5 +124,11 @@ select.addEventListener("change", function (event) {
 //     // let episodeOption = document.querySelectorAll("#episodeList > option");
 //    }
 // })
+
+// function selectAllEpisodes () {
+  //   let optionTitle = document.createElement("option");
+  //   select.appendChild(optionTitle); 
+  //   optionTitle.innerText = "Select All episodes"
+  // }
 
 window.onload = setup;
