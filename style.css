@@ -1,17 +1,32 @@
-#root {
-  color: red;
+body {
+  background-color: peachpuff;
 }
 
+/* 
 #container {
   border: solid 5px green;
-}
+}  */
 
 #header {
-  border: solid 5px red;
+  /* border: solid 5px red; */
+  padding: 25px;
+  text-align: center;
 }
 
-#episodeContainer {
+/* #episodeContainer {
   border: solid 5px blue;
+} */
+
+#title {
+  
+padding: 25px;
+font-family: 'Bangers', cursive;
+font-family: 'Roboto', sans-serif;
+font-size: 300%;
+}
+
+h1 {
+  padding: 25px;
 }
 
 .container {
@@ -24,7 +39,7 @@
 }
 
 body > div.wrapper > div {
-  background-color: pink;
+  background-color:bisque;
   padding: 50px;
 }
 
@@ -34,6 +49,10 @@ body > div.wrapper > div {
   background-color: #f5eaed;
   border-radius: 10px;
   
+}
+
+#search {
+  size: "50"; 
 }
 
 
