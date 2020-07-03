@@ -1,7 +1,13 @@
 let allEpisodes = getAllEpisodes();
+let allShows = getAllShows();
+let oneShow = getOneShow();
 let input = document.getElementById("search");
 let parent = document.querySelector("#episodeContainer");
-let select = document.querySelector("#episodeList");
+let selectEpisode = document.querySelector("#episodeList");
+let selectShow = document.querySelector("#showList");
+console.log(getAllShows());
+console.log(getOneShow());
+
 
 function setup() {
  fetch("https://api.tvmaze.com/shows/5/episodes")
@@ -10,8 +16,7 @@ return response.json();
  })
  .then((data) => {
   makePageForEpisodes(data);
-  createDropdown(data);
-  console.log(data);
+  // console.log(data);
 })
 .catch((error) => console.log(error));
 }
@@ -22,7 +27,11 @@ function makePageForEpisodes(episodeList) {
   for (let i = 0; i < episodeList.length; i++) {
     let card = createCard(episodeList[i]);
     parent.appendChild(card);
+    
   }
+  createDropdown(episodeList);
+  createShowDropdown(oneShow);
+  displayNumOfEpisodes (allEpisodes)
 }
 
 function createCard(episode) {
@@ -94,15 +103,24 @@ function displayNumOfEpisodes (episodesDisplayed) {
 function createDropdown (allEpisodes) {
   for (let i = 0; i < allEpisodes.length; i++) {
         let optionTitle = document.createElement("option");
-        select.appendChild(optionTitle); 
+        selectEpisode.appendChild(optionTitle); 
         optionTitle.innerText = `${formatEpisodeNum(allEpisodes[i].season, allEpisodes[i].number)} - ${allEpisodes[i].name}`;
        }
-       selectAllEpisodes ()
 }
-   
+
+// ------------- Create Show Dropdown on onload ------------
+
+function createShowDropdown () {
+  allShows.forEach((episode) => {
+        let optionTitle = document.createElement("option");
+        selectShow.appendChild(optionTitle); 
+        optionTitle.innerText = `${episode.id}${episode.name}`
+      });
+}
+  
 // ------------ Episode Selector -----------------
 
-select.addEventListener("change", function (event) {
+selectEpisode.addEventListener("change", function (event) {
     let episodeOption = event.target.value;
   
     episodeOption = episodeOption.slice(0, 6);
@@ -116,7 +134,7 @@ select.addEventListener("change", function (event) {
         } else if (card.innerText.includes(episodeOption)) {
           card.style.display = "block";
         } 
-        console.log(card);
+        
     });
     let filteredListOfEpisodes = newArrayOfEpisodes.filter((item) => item.style.display === "block");
     displayNumOfEpisodes(filteredListOfEpisodes);
