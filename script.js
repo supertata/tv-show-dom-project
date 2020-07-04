@@ -98,6 +98,8 @@ function displayNumOfEpisodes(episodesDisplayed) {
 // ------------- Create Episode Dropdown on onload ------------
 
 function createDropdown(allEpisodes) {
+  episodeSelector.innerHTML = '';
+
   for (let i = 0; i < allEpisodes.length; i++) {
     let optionTitle = document.createElement("option");
     episodeSelector.appendChild(optionTitle);
@@ -121,7 +123,8 @@ function createShowDropdown() {
 
 // ------------ Episode Selector -----------------
 
-episodeSelector.addEventListener("change", function (event) {
+episodeSelector.addEventListener("change", function (event) {  
+ 
   let episodeOption = event.target.value;
   episodeOption = episodeOption.slice(0, 6);
   let episodes = document.querySelectorAll(".card");
@@ -155,6 +158,7 @@ function getTVShowID () {
 
 // function selectShowsToGetEpisodes () {
   showSelector.addEventListener("change", function (event) {
+    parent.innerHTML = '';
     let showSelected = event.target.value; //name of TV Show
     
     console.log(showSelected);
@@ -162,6 +166,7 @@ function getTVShowID () {
     return (
       item.name === showSelected);
   });
+
   let showID = selectedShow[0].id;
   if (showID == "none") {
     setup();
