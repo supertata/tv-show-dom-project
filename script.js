@@ -23,9 +23,13 @@ function makePageForEpisodes(episodeList) {
     parent.appendChild(card);
   }
   createDropdown(episodeList);
+  sortNameAlphabetically (allShows);
   createShowDropdown(allShows);
   displayNumOfEpisodes(allEpisodes);
 }
+
+// ------------- create page with Episodes ---------------
+
 
 function createCard(episode) {
   card = document.createElement("div");
@@ -112,13 +116,29 @@ function createDropdown(allEpisodes) {
 
 // ------------- Create Show Dropdown on onload ------------
 
+// allShows.sort((showA, showB) => {
+//   let nameShowA = showA.name.toUpperCase();
+//   let nameShowB = showB.name.toUpperCase();
+//   return (nameShowA < nameShowB) ? -1 : (nameShowA > nameShowB) ? 1 : 0;
+//   });
+function sortNameAlphabetically (array) {
+  array.sort((a, b) => {
+    let nameA = a.name.toUpperCase();
+    let nameB = b.name.toUpperCase();
+    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+    });
+}
+
+
 function createShowDropdown() {
   allShows.forEach((episode) => {
     let optionTitle = document.createElement("option");
     showSelector.appendChild(optionTitle);
     // optionTitle.innerText = `${episode.id}${episode.name}`;
     optionTitle.innerText = `${episode.name}`;
+  //  console.log(showSelector);
   });
+ 
 }
 
 // ------------ Episode Selector -----------------
@@ -156,12 +176,16 @@ function getTVShowID () {
 
 //------------------TV Show Selector Not fully working ----------------------------
 
+let allOptions = document.querySelectorAll("#showList > value");
+console.log(allOptions);
+
 // function selectShowsToGetEpisodes () {
   showSelector.addEventListener("change", function (event) {
     parent.innerHTML = '';
     let showSelected = event.target.value; //name of TV Show
-    
     console.log(showSelected);
+    
+    
     const selectedShow = getAllShows().filter((item) => {
     return (
       item.name === showSelected);
