@@ -12,7 +12,6 @@ function setup() {
     })
     .then((data) => {
       makePageForEpisodes(data);
-      // console.log(data);
     })
     .catch((error) => console.log(error));
 }
@@ -28,8 +27,8 @@ function makePageForEpisodes(episodeList) {
   displayNumOfEpisodes(allEpisodes);
 }
 
-// ------------- create page with Episodes ---------------
 
+// ------------- create page with Episodes ---------------
 
 function createCard(episode) {
   card = document.createElement("div");
@@ -72,7 +71,7 @@ function formatEpisodeNum(season, number) {
     .padStart(2, "0")}`;
 }
 
-// ------------- Search --------------------- only display episodes that contain term.
+// ------------- Search --------------------- 
 
 input.addEventListener("keyup", function (e) {
   const term = e.target.value.toLowerCase();
@@ -95,7 +94,7 @@ input.addEventListener("keyup", function (e) {
 // ------------ Display number of episodes --------------
 
 function displayNumOfEpisodes(episodesDisplayed) {
-  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); //display element
+  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); 
   episodeNumDisplay.innerText = `Displaying ${episodesDisplayed.length}/${allEpisodes.length} episodes`;
 }
 
@@ -116,11 +115,6 @@ function createDropdown(allEpisodes) {
 
 // ------------- Create Show Dropdown on onload ------------
 
-// allShows.sort((showA, showB) => {
-//   let nameShowA = showA.name.toUpperCase();
-//   let nameShowB = showB.name.toUpperCase();
-//   return (nameShowA < nameShowB) ? -1 : (nameShowA > nameShowB) ? 1 : 0;
-//   });
 function sortNameAlphabetically (array) {
   array.sort((a, b) => {
     let nameA = a.name.toUpperCase();
@@ -136,7 +130,6 @@ function createShowDropdown() {
     showSelector.appendChild(optionTitle);
     // optionTitle.innerText = `${episode.id}${episode.name}`;
     optionTitle.innerText = `${episode.name}`;
-  //  console.log(showSelector);
   });
  
 }
@@ -163,26 +156,15 @@ episodeSelector.addEventListener("change", function (event) {
   displayNumOfEpisodes(filteredListOfEpisodes);
 });
 
-// ------------- TV Show ID Not in use at the moment --------------
-
-function getTVShowID () {
-
-  
-  let episodeID = allShows.forEach((episode) => {
-  console.log(episode.id, episode.name)
-  return episodeID 
-})
-}
-
-//------------------TV Show Selector Not fully working ----------------------------
+//------------------TV Show Selector ----------------------------
 
 let allOptions = document.querySelectorAll("#showList > value");
 console.log(allOptions);
 
-// function selectShowsToGetEpisodes () {
+
   showSelector.addEventListener("change", function (event) {
     parent.innerHTML = '';
-    let showSelected = event.target.value; //name of TV Show
+    let showSelected = event.target.value; 
     console.log(showSelected);
     
     
