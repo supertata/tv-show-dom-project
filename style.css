@@ -55,6 +55,14 @@ body > div.wrapper > div {
   size: "50"; 
 }
 
+.showExtraInfoCard {
+  padding: 20px 20px;
+  margin: 20px 20px;
+  background-color: orange;
+  border-radius: 10px;
+  
+}
+
 
 
 

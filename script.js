@@ -5,42 +5,145 @@ let parent = document.querySelector("#episodeContainer");
 let episodeSelector = document.querySelector("#episodeList");
 let showSelector = document.querySelector("#showList");
 
+//---------------- Set-up Page Display Shows--------------- 
+
 function setup() {
-  fetch("https://api.tvmaze.com/shows/5/episodes")
-    .then(function (response) {
-      return response.json();
-    })
-    .then((data) => {
-      makePageForEpisodes(data);
-    })
-    .catch((error) => console.log(error));
+  makePageForShows(allShows);
+  displayNumOfShows(allShows.length, allShows.length)
 }
+
+function makePageForShows(allShows) {
+  parent.innerHTML = '';
+  showSelector.style.display = "block";
+  episodeSelector.style.display = "none";
+  for (let i = 0; i < allShows.length; i++) {
+    let card = createCardForShows(allShows[i]);
+    parent.appendChild(card);
+  }
+  sortNameAlphabetically(allShows);
+  createShowDropdown(allShows);
+}
+
+
+function createCardForShows(show) {
+  showCard = document.createElement("div");
+  showCard.className = "card";
+  showCard.style.textAlign = "center";
+  showCard.id = show.id;
+  showCard.appendChild(createTitleForShow(show));
+  let showCardImage
+  if (show.image) {
+    showCardImage = createImage(show.image.medium);  
+  } else {
+    showCardImage= createImage("https://cdn.hswstatic.com/gif/simpsons-31.jpg");
+  }
+  showCard.appendChild(showCardImage);
+  showCard.appendChild(createSummary(show.summary));
+  showCard.appendChild(createExtraInfoForShows(show));
+  return showCard;
+}
+
+function createTitleForShow(show) {
+  let title = document.createElement("h1");
+  title.style.margin = "0 30px 40px 30px";
+  title.style.fontSize = "x-large";
+  title.innerText = `${show.name}`;
+  return title;
+}
+
+function createExtraInfoForShows(show) {
+  const extraInfoForShow = document.createElement("div");
+  extraInfoForShow.className = "showExtraInfoCard";
+  extraInfoForShow.innerHTML = 
+  `<p>Genres: ${show.genres}</p>
+  <p>Status: ${show.status}</p>
+  <p>Rating: ${show.rating.average}</p>
+  <p>Runtime: ${show.runtime}</p>`;
+  showCard.appendChild(extraInfoForShow);
+  return extraInfoForShow
+  }
+
+  // ------------- Create Show Dropdown on onload ------------
+
+function sortNameAlphabetically(array) {
+  array.sort((a, b) => {
+    let nameA = a.name.toUpperCase();
+    let nameB = b.name.toUpperCase();
+    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+    });
+}
+
+
+function createShowDropdown(allShows) {
+  allShows.forEach((show) => {
+    let optionForShowTitle = document.createElement("option");
+    showSelector.appendChild(optionForShowTitle);
+    optionForShowTitle.innerText = `${show.name}`;
+  });
+}
+
+//------------------TV Show Selector ----------------------------
+
+let allOptions = document.querySelectorAll("#showList > value");
+
+    showSelector.addEventListener("change", function (event) {
+    parent.innerHTML = '';
+    episodeSelector.style.display = "block";
+    let showSelected = event.target.value;  
+    const selectedShow = getAllShows().filter((item) => {   
+    return (
+      item.name === showSelected);
+  });
+
+  let showID = selectedShow[0].id;  
+  if (showID == "none") {
+    setup();
+  } else {
+  fetch(`https://api.tvmaze.com/shows/${showID}/episodes`)   
+  .then(function (response) {
+    return response.json();
+  })
+   .then((results) => {
+     makePageForEpisodes(results);
+     createDropdown(results);
+     displayNumOfEpisodes(results.length, results.length);
+     hideShowSelector();
+   })
+   .catch((error) => console.log(error));
+  }
+});
+
+function hideShowSelector () {
+showSelector.style.display = "none";
+}
+
+//------------------Display Episode Page  -----------
 
 function makePageForEpisodes(episodeList) {
   for (let i = 0; i < episodeList.length; i++) {
-    let card = createCard(episodeList[i]);
+    let card = createCardForEpisodes(episodeList[i]);
     parent.appendChild(card);
   }
   createDropdown(episodeList);
-  sortNameAlphabetically (allShows);
-  createShowDropdown(allShows);
-  displayNumOfEpisodes(allEpisodes);
 }
 
-
-// ------------- create page with Episodes ---------------
-
-function createCard(episode) {
+function createCardForEpisodes(episode) {
   card = document.createElement("div");
   card.className = "card";
   card.style.textAlign = "center";
-  card.appendChild(createTitle(episode));
-  card.appendChild(createImage(episode.image.medium));
+  card.appendChild(createTitleEpisode(episode));
+  let episodeCardImage
+  if (episode.image) {
+    episodeCardImage = createImage(episode.image.medium);  
+  } else {
+    episodeCardImage= createImage("https://cdn.hswstatic.com/gif/simpsons-31.jpg");
+  }
+  card.appendChild(episodeCardImage);
   card.appendChild(createSummary(episode.summary));
   return card;
 }
 
-function createTitle(episode) {
+function createTitleEpisode(episode) {
   let title = document.createElement("h1");
   title.style.margin = "0 30px 40px 30px";
   title.style.fontSize = "x-large";
@@ -50,6 +153,14 @@ function createTitle(episode) {
   )}`;
   return title;
 }
+
+function formatEpisodeNum(season, number) {
+  return `S${season.toString().padStart(2, "0")}E${number
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+// ------------- create episode and show Page  ---------------
 
 function createSummary(summary) {
   let summaryElement = document.createElement("p");
@@ -65,44 +176,11 @@ function createImage(imageSrc) {
   return imageElement;
 }
 
-function formatEpisodeNum(season, number) {
-  return `S${season.toString().padStart(2, "0")}E${number
-    .toString()
-    .padStart(2, "0")}`;
-}
-
-// ------------- Search --------------------- 
-
-input.addEventListener("keyup", function (e) {
-  const term = e.target.value.toLowerCase();
-  let episodes = document.querySelectorAll(".card");
-
-  let newArrayOfEpisodes = Array.from(episodes);
-  newArrayOfEpisodes.forEach(function (episode) {
-    if (episode.innerText.toLowerCase().includes(term)) {
-      episode.style.display = "block";
-    } else {
-      episode.style.display = "none";
-    }
-  });
-  let filteredListOfEpisodes = newArrayOfEpisodes.filter(
-    (item) => item.style.display === "block"
-  );
-  displayNumOfEpisodes(filteredListOfEpisodes);
-});
-
-// ------------ Display number of episodes --------------
-
-function displayNumOfEpisodes(episodesDisplayed) {
-  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); 
-  episodeNumDisplay.innerText = `Displaying ${episodesDisplayed.length}/${allEpisodes.length} episodes`;
-}
-
 // ------------- Create Episode Dropdown on onload ------------
 
 function createDropdown(allEpisodes) {
   episodeSelector.innerHTML = '';
-
+  createSelectAllEpisodesOption()
   for (let i = 0; i < allEpisodes.length; i++) {
     let optionTitle = document.createElement("option");
     episodeSelector.appendChild(optionTitle);
@@ -113,25 +191,13 @@ function createDropdown(allEpisodes) {
   }
 }
 
-// ------------- Create Show Dropdown on onload ------------
+function createSelectAllEpisodesOption() {
+  let optionTitle = document.createElement("option");
+  episodeSelector.appendChild(optionTitle);
+  optionTitle.innerText = "Select All Episodes";
+  
 
-function sortNameAlphabetically (array) {
-  array.sort((a, b) => {
-    let nameA = a.name.toUpperCase();
-    let nameB = b.name.toUpperCase();
-    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-    });
-}
-
-
-function createShowDropdown() {
-  allShows.forEach((episode) => {
-    let optionTitle = document.createElement("option");
-    showSelector.appendChild(optionTitle);
-    // optionTitle.innerText = `${episode.id}${episode.name}`;
-    optionTitle.innerText = `${episode.name}`;
-  });
- 
+   optionTitle.addEventListener("change", setup);
 }
 
 // ------------ Episode Selector -----------------
@@ -153,48 +219,57 @@ episodeSelector.addEventListener("change", function (event) {
   let filteredListOfEpisodes = newArrayOfEpisodes.filter(
     (item) => item.style.display === "block"
   );
-  displayNumOfEpisodes(filteredListOfEpisodes);
+  displayNumOfEpisodes(filteredListOfEpisodes.length, newArrayOfEpisodes.length);
 });
 
-//------------------TV Show Selector ----------------------------
+// ------------- Search bar  --------------------- 
 
-let allOptions = document.querySelectorAll("#showList > value");
-console.log(allOptions);
-
-
-  showSelector.addEventListener("change", function (event) {
-    parent.innerHTML = '';
-    let showSelected = event.target.value; 
-    console.log(showSelected);
-    
-    
-    const selectedShow = getAllShows().filter((item) => {
-    return (
-      item.name === showSelected);
+input.addEventListener("keyup", function (e) {
+  const term = e.target.value.toLowerCase();
+  let episodes = document.querySelectorAll(".card");
+  let newArrayOfEpisodes = Array.from(episodes);
+  newArrayOfEpisodes.forEach(function (episode) {
+    if (episode.innerText.toLowerCase().includes(term)) {
+      episode.style.display = "block";
+    } else {
+      episode.style.display = "none";
+    }
   });
-
-  let showID = selectedShow[0].id;
-  if (showID == "none") {
-    setup();
-  } else {
-  fetch(`https://api.tvmaze.com/shows/${showID}/episodes`)
-  .then(function (response) {
-    return response.json();
-  })
-   .then((results) => {
-     console.log(results);
-     makePageForEpisodes(results);
-     createDropdown(results);
-   })
-   .catch((error) => console.log(error));
+  let filteredListOfEpisodes = newArrayOfEpisodes.filter(
+    (item) => item.style.display === "block"
+  );
+  if (newArrayOfEpisodes[0].id != "") {
+    displayNumOfShows(filteredListOfEpisodes.length, newArrayOfEpisodes.length);
   }
-  
-  });
+  displayNumOfEpisodes(filteredListOfEpisodes.length, newArrayOfEpisodes.length);
+});
+
+// ------------ Display number of episodes and shows --------------
+
+function displayNumOfEpisodes(episodesDisplayed, allItems) {
+  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); 
+  episodeNumDisplay.innerText = `Displaying ${episodesDisplayed}/${allItems} episodes`;
+}
+
+function displayNumOfShows(showsDisplayed, allItems) {
+  let episodeNumDisplay = document.getElementById("numOfEpisodesDisplay"); 
+  episodeNumDisplay.innerText = `Displaying ${showsDisplayed}/${allItems} shows`;
+}
+
 
 // ----------------- Show all Episodes button ------------------------
 
 let allEpisodesButton = document.getElementById("showAllEpisodes");
 
-allEpisodesButton.addEventListener("click", setup);
+allEpisodesButton.addEventListener("click", makePageForEpisodes(allEpisodes));
+
+
+//------------------- Show all shows button ------------------------
+
+
+let allShowsButton = document.getElementById("showAllShows");
+
+allShowsButton.addEventListener("click", setup);
+
 
 window.onload = setup;
