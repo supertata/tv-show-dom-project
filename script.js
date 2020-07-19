@@ -40,15 +40,15 @@ function createCardForShows(show) {
   }
   showCard.append(
     showCardImage,
-    createSummary(show.summary),
-    createExtraInfoForShows(show)
+    createExtraInfoForShows(show),
+    createSummary(show.summary)
   );
   return showCard;
 }
 
 function createTitleForShow(show) {
-  let title = document.createElement("h1");
-  title.className = "titles";
+  let title = document.createElement("p");
+  title.className = "titles border";
   title.innerText = `${show.name}`;
   return title;
 }
@@ -56,10 +56,10 @@ function createTitleForShow(show) {
 function createExtraInfoForShows(show) {
   const extraInfoForShow = document.createElement("div");
   extraInfoForShow.className = "showExtraInfoCard";
-  extraInfoForShow.innerHTML = `<p>Genres: ${show.genres}</p>
-  <p>Status: ${show.status}</p>
-  <p>Rating: ${show.rating.average}</p>
-  <p>Runtime: ${show.runtime}</p>`;
+  extraInfoForShow.innerHTML = `<p><strong> Genres:</strong> ${show.genres}</p>
+  <p><strong>Status:</strong> ${show.status}</p>
+  <p><strong>Rating:</strong> ${show.rating.average}</p>
+  <p><strong>Runtime:</strong> ${show.runtime}</p>`;
   showCard.appendChild(extraInfoForShow);
   return extraInfoForShow;
 }
@@ -156,10 +156,10 @@ function createCardForEpisodes(episode) {
 }
 
 function createTitleEpisode(episode) {
-  let title = document.createElement("h1");
+  let title = document.createElement("p");
   // title.style.margin = "0 30px 40px 30px";
   // title.style.fontSize = "x-large";
-  title.className = "titles";
+  title.className = "titles border";
   title.innerText = `${episode.name} - ${formatEpisodeNum(
     episode.season,
     episode.number
@@ -265,8 +265,8 @@ function displayNumOfShows(showsDisplayed, allShows) {
 
 //------------------- Show all shows button ------------------------
 
-let allShowsButton = document.getElementById("showAllShows");
+// let allShowsButton = document.getElementById("showAllShows");
 
-allShowsButton.addEventListener("click", setup);
+// allShowsButton.addEventListener("click", setup);
 
 window.onload = setup;

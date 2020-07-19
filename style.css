@@ -1,17 +1,23 @@
 body {
-  background-color: peachpuff;
+  background-color: #c70039;
 }
 
 #header {
   padding: 25px;
   text-align: center;
+  background-color: #900c3f;
+  border: solid;
+  border-width: medium;
+  border-radius: 5px;
+  text-align: center;
+  margin: 30px;
 }
 
 #title {
-  
-padding: 25px;
-font-family: 'Bangers', cursive;
-font-size: 300%;
+  padding: 60px;
+  font-family: cursive;
+  font-size: 300%;
+  color: #ffc300;
 }
 
 h1 {
@@ -27,38 +33,89 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
 }
 
-body > div.wrapper > div {
-  background-color:bisque;
+/* body > div.wrapper > div {
+  background-color: bisque;
   padding: 50px;
-}
+} */
 
 .card {
   padding: 20px 20px;
   margin: 20px 20px;
-  background-color: #f5eaed;
+  background-color: #900c3f;
   border-radius: 10px;
-  
+  border: solid;
+  border-width: medium;
+  border-radius: 5px;
+  text-align: center;
+  margin: 30px;
 }
 
 #search {
-  size: "50"; 
+  size: "50";
 }
 
 .showExtraInfoCard {
   padding: 20px 20px;
   margin: 20px 20px;
-  background-color: orange;
   border-radius: 10px;
+  text-align: left;
 }
 
 .titles {
   margin: "0 30px 40px 30px";
-  font-size: "x-large";
+  color: #ffc300;
+  padding: 10px;
+  font-size: medium;
 }
 
+.border {
+  border: solid;
+  border-width: medium;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px;
+}
 
+img {
+  border-style: solid;
+  width: 85%;
+}
 
+.alignLeft {
+  text-align: left;
+}
 
+.padding {
+  padding: 15px;
+}
 
+.margin {
+  margin: 15px;
+}
 
+#numOfEpisodesDisplay {
+  color: #ffc300;
+  font-size: 150%;
+  padding: 5px;
+  margin: 10px;
+}
 
+#numepisode {
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+#episodeList {
+  padding: 15px;
+}
+@media (max-width: 980px) {
+  #episodeContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  #episodeContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
